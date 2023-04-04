@@ -14,7 +14,17 @@ export function useUser() {
         }
     }
 
+    
+    async function registerUser(request: LoginRequest) {
+        const response = await Login(request);
+
+        if (response) {
+            handleChangeUser(response);
+        }
+    }
+
     return {
-        loginUser
+        loginUser,
+        registerUser
     }
 }

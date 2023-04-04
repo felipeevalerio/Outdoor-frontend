@@ -5,7 +5,7 @@ import { GlobalStyle } from "./styles/global";
 import { defaultTheme } from "./styles/themes/default";
 import { UserProvider } from "./contexts/UserContext";
 
-export function App() {
+export function App() { 
   return (
     <ThemeProvider theme={defaultTheme}>
       <BrowserRouter>

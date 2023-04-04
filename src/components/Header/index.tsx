@@ -5,7 +5,8 @@ import { Logo } from "../Logo";
 import * as Dialog from '@radix-ui/react-dialog';
 import { LoginModal } from "../../pages/LoginModal";
 import { UserContext } from "../../contexts/UserContext";
-import { MouseEvent, useContext } from "react";
+import { MouseEvent, useContext, useState } from "react";
+import { RegisterModal } from "../../pages/RegisterModal";
 
 interface INavLink {
     title: string;
@@ -27,9 +28,15 @@ const navLinks: INavLink[] = [
     },
 ]
 
+export enum ModalCategory {
+    Register = "register",
+    Login = "login"
+}
+
 export function Header() {
     const { user } = useContext(UserContext);
     const navigate = useNavigate();
+    const [currentModal, setCurrentModal] = useState<ModalCategory>(ModalCategory.Login);
     
     const userFirstName = user?.name?.split(' ')[0] ?? 'Entre ou cadastre';
 
@@ -69,8 +76,12 @@ export function Header() {
                         <Dialog.Trigger asChild>
                             {renderSignInButtonOrProfileInfo()}
                         </Dialog.Trigger>
-
-                        <LoginModal />
+                        
+                        {currentModal === ModalCategory.Login ? (
+                            <LoginModal  setCurrentModal={setCurrentModal} />
+                        ) : (
+                            <RegisterModal setCurrentModal={setCurrentModal} />
+                        )}
                     </Dialog.Root>
                 )}
             </LinksContainer>

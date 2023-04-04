@@ -1,7 +1,7 @@
 import { Button } from "../../components/Button";
 import { Title } from "../../components/Form/styles";
 import { Input } from "../../components/Input";
-import { ButtonsContainer, FormContent, InputsContainer, LoginForm } from "./styles";
+import { ButtonsContainer, FormContent, InputsContainer, RegisterForm } from "./styles";
 import { useUser } from "../../hooks/useUser";
 
 import * as z from 'zod';
@@ -10,40 +10,46 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from "react-hook-form";
 import { ModalCategory } from "../../components/Header";
 
-const loginUserSchema = z.object({
+const registerUserSchema = z.object({
+    userType: z.enum(['client','provider']),
     email: z.string().email(),
+    name: z.string().min(1),
     password: z.string().min(1)
 })
 
-type LoginUserFormInputs = z.infer<typeof loginUserSchema>;
+type RegisterUserFormInput = z.infer<typeof registerUserSchema>;
 
-interface ILoginModalProps {
+interface IRegisterModal {
     setCurrentModal: (currentModal: ModalCategory) => void;
 }
 
-export function LoginModal({setCurrentModal}: ILoginModalProps) {
-    const { loginUser } = useUser();
-    const { register, handleSubmit, formState: { isSubmitting } } = useForm<LoginUserFormInputs>({
-        resolver: zodResolver(loginUserSchema)
+
+export function RegisterModal({ setCurrentModal }: IRegisterModal) {
+    const { registerUser } = useUser();
+    const { register, handleSubmit, formState: { isSubmitting } } = useForm<RegisterUserFormInput>({
+        resolver: zodResolver(registerUserSchema)
     });
 
-    function handleForgotPassword() {
-        
+
+    async function handleRegister(data: RegisterUserFormInput) {
+        registerUser(data);
     }
 
-    async function handleLogin(data: LoginUserFormInputs) {
-        loginUser(data);
-    }
-
-    function handleChangeToRegister() {
-        setCurrentModal(ModalCategory.Register);
+    function handleChangeToLogin() {
+        setCurrentModal(ModalCategory.Login);
     }
 
     return (
-        <LoginForm onSubmit={handleSubmit(handleLogin)}>
-            <Title>Login</Title>
+        <RegisterForm onSubmit={handleSubmit(handleRegister)}>
+            <Title>Cadastrar</Title>
             <FormContent>
                 <InputsContainer>
+                    <Input 
+                        id="name" 
+                        type="text"
+                        placeholder="Nome"
+                        register={register}
+                    />
                     <Input 
                         id="email" 
                         type="email"
@@ -57,31 +63,23 @@ export function LoginModal({setCurrentModal}: ILoginModalProps) {
                         register={register}
                     />
                 </InputsContainer>
-                <button 
-                    type="button" 
-                    onClick={handleForgotPassword}
-                    className="forgot-password"
-                >
-                    Esqueci minha senha
-                </button>
-
                 <ButtonsContainer>
                     <Button 
                         type="submit"
                         disabled={isSubmitting}
                     >
-                        Entrar
+                        Cadastrar
                     </Button>
                     <strong>OU</strong>
                     <button 
                         type="button"
                         className="register-button"
-                        onClick={handleChangeToRegister}
+                        onClick={handleChangeToLogin}
                     >
-                        Registrar
+                        Entrar
                     </button>
                 </ButtonsContainer>
             </FormContent>
-        </LoginForm>
+        </RegisterForm>
     )
 }

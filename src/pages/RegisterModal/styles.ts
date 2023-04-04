@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Form } from "../../components/Form";
 import { Logo } from "../../components/Logo";
 
-export const LoginForm = styled(Form)`
+export const RegisterForm = styled(Form)`
 `
 
 export const FormContent = styled.section`
