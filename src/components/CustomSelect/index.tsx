@@ -29,6 +29,5 @@ export function CustomSelect({ control, controllerName, items} : ICustomSelectPr
       )
     }}
   />
-
   )
 }
