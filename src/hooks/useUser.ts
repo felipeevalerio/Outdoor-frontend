@@ -1,7 +1,8 @@
 import { useContext } from "react";
 import { LoginRequest } from "../api/user/models/LoginModel";
-import { Login } from '../api/user/user-api';
+import { Login, Register } from '../api/user/user-api';
 import { UserContext } from "../contexts/UserContext";
+import { RegisterRequest } from "../api/user/models/RegisterModel";
 
 export function useUser() {
     const { handleChangeUser } = useContext(UserContext);
@@ -15,8 +16,8 @@ export function useUser() {
     }
 
     
-    async function registerUser(request: LoginRequest) {
-        const response = await Login(request);
+    async function registerUser(request: RegisterRequest) {
+        const response = await Register(request);
 
         if (response) {
             handleChangeUser(response);

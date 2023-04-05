@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { useForm } from "react-hook-form";
 import { ModalCategory } from "../../components/Header";
+import { CustomSelect, ISelectOptions } from "../../components/CustomSelect";
 
 const registerUserSchema = z.object({
     userType: z.enum(['client','provider']),
@@ -23,13 +24,22 @@ interface IRegisterModal {
     setCurrentModal: (currentModal: ModalCategory) => void;
 }
 
+const items: ISelectOptions[] = [
+    {
+        title: 'Cliente',
+        value: 'client'
+    },
+    {
+        title: 'Prestador de serviços',
+        value: 'provider'
+    },
+]
 
 export function RegisterModal({ setCurrentModal }: IRegisterModal) {
     const { registerUser } = useUser();
-    const { register, handleSubmit, formState: { isSubmitting } } = useForm<RegisterUserFormInput>({
+    const { register, handleSubmit, formState: { isSubmitting }, control } = useForm<RegisterUserFormInput>({
         resolver: zodResolver(registerUserSchema)
     });
-
 
     async function handleRegister(data: RegisterUserFormInput) {
         registerUser(data);
@@ -44,6 +54,11 @@ export function RegisterModal({ setCurrentModal }: IRegisterModal) {
             <Title>Cadastrar</Title>
             <FormContent>
                 <InputsContainer>
+                    <CustomSelect 
+                        control={control} 
+                        controllerName={"userType"} 
+                        items={items}
+                    />
                     <Input 
                         id="name" 
                         type="text"
