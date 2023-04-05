@@ -13,9 +13,9 @@ import { CustomSelect, ISelectOptions } from "../../components/CustomSelect";
 
 const registerUserSchema = z.object({
     userType: z.enum(['client','provider']),
-    email: z.string().email(),
+    email: z.string().email('Deve possuir um formato válido de email'),
     name: z.string().min(1),
-    password: z.string().min(1)
+    password: z.string().min(6, 'A senha deve ter mais de 6 caracteres').max(50, 'A senha deve ter menos de 50 caracteres')
 })
 
 type RegisterUserFormInput = z.infer<typeof registerUserSchema>;
@@ -37,12 +37,17 @@ const items: ISelectOptions[] = [
 
 export function RegisterModal({ setCurrentModal }: IRegisterModal) {
     const { registerUser } = useUser();
-    const { register, handleSubmit, formState: { isSubmitting }, control } = useForm<RegisterUserFormInput>({
-        resolver: zodResolver(registerUserSchema)
+
+    const { register, handleSubmit, formState: { isSubmitting,errors }, control, reset } = useForm<RegisterUserFormInput>({
+        resolver: zodResolver(registerUserSchema),
+        defaultValues: {
+            userType: 'client'
+        }
     });
 
     async function handleRegister(data: RegisterUserFormInput) {
         registerUser(data);
+        reset();
     }
 
     function handleChangeToLogin() {
@@ -71,12 +76,14 @@ export function RegisterModal({ setCurrentModal }: IRegisterModal) {
                         placeholder="Email"
                         register={register}
                     />
+                    {errors.email && <span className="error">{errors.email.message}</span>}
                     <Input 
                         id="password" 
                         type="password"
                         placeholder="Senha"
                         register={register}
                     />
+                    {errors.password && <span className="error">{errors.password.message}</span>}
                 </InputsContainer>
                 <ButtonsContainer>
                     <Button 

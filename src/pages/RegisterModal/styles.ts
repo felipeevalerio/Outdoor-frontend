@@ -24,6 +24,11 @@ export const FormContent = styled.section`
             text-decoration: underline;
         }
     }
+
+    .error {
+        color: red;
+        text-align: center;
+    }
 `
 
 export const InputsContainer = styled.section`
