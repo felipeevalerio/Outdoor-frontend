@@ -7,6 +7,7 @@ import { LoginModal } from "../../pages/LoginModal";
 import { UserContext } from "../../contexts/UserContext";
 import { MouseEvent, useContext, useState } from "react";
 import { RegisterModal } from "../../pages/RegisterModal";
+import { useUser } from "../../hooks/useUser";
 
 interface INavLink {
     title: string;
@@ -35,6 +36,8 @@ export enum ModalCategory {
 
 export function Header() {
     const { user } = useContext(UserContext);
+    const { logoutUser } = useUser();
+
     const navigate = useNavigate();
     const [currentModal, setCurrentModal] = useState<ModalCategory>(ModalCategory.Login);
     
@@ -44,11 +47,19 @@ export function Header() {
         navigate(href);
     }
 
+    function handleLogoutUser() {
+        logoutUser()
+    }
+
     function renderSignInButtonOrProfileInfo() {
         return (
             <SignInSignUpButton userHaveAvatar={!!user?.avatar}>
                 <img src={user?.avatar || signInSignUpImg} alt="" />
                 <span>{userFirstName}</span>
+                {user && <ul className="userMenu">
+                    <li onClick={handleLogoutUser}>Encerrar sessão</li>
+                </ul>
+                }
             </SignInSignUpButton>   
         )
     }

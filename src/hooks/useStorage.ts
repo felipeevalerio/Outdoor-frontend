@@ -18,9 +18,15 @@ export function useStorage() {
     function insertInLocalStorage(key: StorageKeys, value: any) {
         localStorage.setItem(BASE_KEY + key, JSON.stringify(value));
     }
+
+    function removeFromLocalStorage(key: StorageKeys) {
+        localStorage.removeItem(BASE_KEY + key);
+    }
+    
     
     return {
         getFromLocalStorage,
+        removeFromLocalStorage,
         insertInLocalStorage
     }
 }

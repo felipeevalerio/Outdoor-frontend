@@ -43,9 +43,10 @@ export const SignInSignUpButton = styled.button<SignInSignUpButtonProps>`
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    margin-left: 1rem;
-    border: 0;
     
+    margin: 0 1rem;
+    border: 0;
+        
     background-color: transparent;
     cursor: pointer;
     position: relative;
@@ -82,5 +83,34 @@ export const SignInSignUpButton = styled.button<SignInSignUpButtonProps>`
 
     span {
         font-size: 0.875rem;
+    }
+
+    .userMenu {
+        display: none;
+    }
+
+    &:hover .userMenu {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        position: absolute;
+        content: '';
+        background: ${props => props.theme["gray-300"]};
+        color: ${props => props.theme.text};
+        top: 3.5rem;
+        border-radius: 4px;
+        border: 1px solid ${props => props.theme["gray-500"]};
+        
+        li {
+            overflow: hidden;
+            list-style: none;
+            padding: 0.5rem 1rem;
+            transition: all 0.1s ease;
+
+            &:hover {
+                background-color: ${props => props.theme["purple-300"]};
+                color: ${props => props.theme.white};
+            }
+        }
     }
 `

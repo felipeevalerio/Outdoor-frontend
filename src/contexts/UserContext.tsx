@@ -4,7 +4,7 @@ import { StorageKeys, useStorage } from '../hooks/useStorage';
 
 interface UserContextType {
     user: UserModel | null;
-    handleChangeUser: (user: UserModel) => void;
+    handleChangeUser: (user: UserModel | null) => void;
 }
 
 export const UserContext = createContext({} as UserContextType);
@@ -22,7 +22,7 @@ export function UserProvider({children}: IUserProviderProps) {
         setUser(userFound);
     }, []);
 
-    function handleChangeUser(user: UserModel) {
+    function handleChangeUser(user: UserModel | null) {
         insertInLocalStorage(StorageKeys.Users, user);
         setUser(user);
     }
