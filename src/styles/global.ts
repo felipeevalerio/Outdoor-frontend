@@ -19,7 +19,7 @@ export const GlobalStyle = createGlobalStyle`
     body, input, textarea, button {
         font-size: 1rem;
         font-weight: 400;
-        font-family: 'Lato', sans-serif;
+        font-family: 'Raleway', sans-serif;
         color: ${props => props.theme.text};
     } 
 
