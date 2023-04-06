@@ -10,7 +10,7 @@ export const FormContent = styled.section`
     flex-direction: column;
     margin: 4rem 0;
     gap: 0.5rem;
-    width: 50%;
+    width: 70%;
 
     .forgot-password {
         background: transparent;
@@ -30,6 +30,7 @@ export const InputsContainer = styled.section`
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    
 `
 
 export const ButtonsContainer = styled.div`

@@ -1,15 +1,9 @@
-import { useEffect } from "react";
-import { usePosts } from "../../../../hooks/usePosts";
 import { Post } from "../Post";
 import { ListServicesContainer } from "./styles";
+import { usePosts } from "../../../../hooks/usePosts";
 
 export function ListServices() {
-    const { posts, getAllPosts } = usePosts()
-    
-    useEffect(() => {
-        getAllPosts();
-    }, [])
-
+    const { posts } = usePosts();
     return (
         <ListServicesContainer>
             {posts.map(post => {

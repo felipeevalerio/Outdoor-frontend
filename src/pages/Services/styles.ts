@@ -4,11 +4,20 @@ export const ServicesContainer = styled.main`
     display: flex;
     flex-direction: column;
     padding: 1rem 3rem;
+`
+
+export const ServicesActions = styled.header`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     .selects-container {
         display: flex;
-        gap: 1rem;
-        align-items: center;
+        gap: 1.5rem;
+    }
+
+    button {
+        max-width: 240px;
     }
 `
 

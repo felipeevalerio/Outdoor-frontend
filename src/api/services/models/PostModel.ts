@@ -3,7 +3,7 @@ import { UserModel } from "../../user/models/UserModel";
 export interface PostModel {
     id: string;
     title: string;
-    category: string;
+    categoryId: string;
     state: string;
     district: string;
     city: string;
@@ -13,4 +13,9 @@ export interface PostModel {
     rating: number;
     createdAt: Date;
     provider: UserModel;
+}
+
+export interface CategoryModel {
+    id: string;
+    name: string;
 }

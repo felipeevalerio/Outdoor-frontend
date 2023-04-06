@@ -4,14 +4,20 @@ import { Router } from "./Router";
 import { GlobalStyle } from "./styles/global";
 import { defaultTheme } from "./styles/themes/default";
 import { UserProvider } from "./contexts/UserContext";
+import { LoadingProvider } from "./contexts/LoadingContext";
+import { PostsProvider } from "./contexts/PostsContext";
 
 export function App() { 
   return (
     <ThemeProvider theme={defaultTheme}>
       <BrowserRouter>
+        <LoadingProvider>
         <UserProvider>
-          <Router />
+          <PostsProvider>
+            <Router />
+          </PostsProvider>
         </UserProvider>
+        </LoadingProvider>
       </BrowserRouter>
       <GlobalStyle />
     </ThemeProvider>

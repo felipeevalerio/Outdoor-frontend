@@ -12,7 +12,7 @@ export const Overlay = styled(Dialog.DialogOverlay)`
 `
 
 export const Content = styled(Dialog.Content)`
-  min-width: 32rem;
+  min-width: 40rem;
   border-radius: 8px;
   background: ${(props) => props.theme.white};
   position: fixed;
