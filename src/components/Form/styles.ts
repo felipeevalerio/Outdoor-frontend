@@ -32,6 +32,7 @@ export const Content = styled(Dialog.Content)`
 
 export const Title = styled(Dialog.Title)`
   background-color: ${props => props.theme["purple-500"]};
+  border-radius: 8px 8px 0 0;
   width: 100%;
   text-align: center;
   color: ${props => props.theme.white};
@@ -47,4 +48,8 @@ export const CloseButton = styled(Dialog.Close)`
   line-height: 0;
   cursor: pointer;
   color: ${props => props.theme.white};
+`
+
+export const ErrorMessage = styled.span`
+  color: red;
 `

@@ -6,11 +6,13 @@ import { defaultTheme } from "./styles/themes/default";
 import { UserProvider } from "./contexts/UserContext";
 import { LoadingProvider } from "./contexts/LoadingContext";
 import { PostsProvider } from "./contexts/PostsContext";
+import { AxiosProvider } from "./contexts/AxiosContext";
 
 export function App() { 
   return (
     <ThemeProvider theme={defaultTheme}>
       <BrowserRouter>
+      <AxiosProvider>
         <LoadingProvider>
         <UserProvider>
           <PostsProvider>
@@ -18,6 +20,7 @@ export function App() {
           </PostsProvider>
         </UserProvider>
         </LoadingProvider>
+      </AxiosProvider>
       </BrowserRouter>
       <GlobalStyle />
     </ThemeProvider>

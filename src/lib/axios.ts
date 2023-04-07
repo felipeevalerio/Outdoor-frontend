@@ -1,7 +1,15 @@
-import axios from "axios";
+// import axios, { AxiosResponse } from "axios";
 
-const instance = axios.create({
-    baseURL: 'https://localhost:7221/api'
-});
+// interface ResponseError {
+//     status: number;
+//     message: string;
+// }
 
-export { instance as axios }
+// const instance = axios.create({
+//     baseURL: 'https://localhost:7221/api'
+// });
+
+
+// axios.interceptors.response.use(config => config, (error) => handleError(error))
+
+// export { instance as axios }

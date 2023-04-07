@@ -1,4 +1,3 @@
-import { axios } from "../../lib/axios";
 import { CategoryModel, PostModel } from "./models/PostModel";
 
 const postsMock: PostModel[] = [
