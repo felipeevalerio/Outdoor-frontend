@@ -2,7 +2,7 @@ import { CategoryModel, PostModel } from "./models/PostModel";
 
 const postsMock: PostModel[] = [
     {
-        categoryId: 'Alimentação',
+        categoryId: '32189',
         city: 'Belo Horizonte',
         createdAt: new Date(),
         district: 'Buritis',
@@ -24,7 +24,7 @@ const postsMock: PostModel[] = [
         }
     },
     {
-        categoryId: 'Limpeza',
+        categoryId: '3120321',
         city: 'Belo Horizonte',
         createdAt: new Date(),
         district: 'Buritis',

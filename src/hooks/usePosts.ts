@@ -12,9 +12,14 @@ export function usePosts() {
         window.open(`https://wa.me/${post.contactNumber}?text=${message}`, '_blank')
     }
 
+    function filterPostsFromCategory(categoryId: string | null) {
+        return categoryId ? posts.filter(post => post.categoryId === categoryId) : posts;
+    }
+
     return {
         posts,
         categories,
         sendMessageToProvider,
+        filterPostsFromCategory
     }
 }
