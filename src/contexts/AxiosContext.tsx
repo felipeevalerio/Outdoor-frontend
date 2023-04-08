@@ -43,6 +43,7 @@ export function AxiosProvider({ children }: IAxiosProviderProps) {
                 status: 500 
             };
 
+            showToast(respostaAxios.message)
             return respostaAxios;
         }
     }
