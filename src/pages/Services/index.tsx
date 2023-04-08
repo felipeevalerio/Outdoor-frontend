@@ -6,12 +6,14 @@ import { Button } from "../../components/Button";
 import { CreatePostModal } from "./components/CreatePostModal";
 import * as Dialog from "@radix-ui/react-dialog";
 import { UserContext } from "../../contexts/UserContext";
+import { CitySelect } from "../../components/CitySelect";
 
 export function Services() {
     const { user } = useContext(UserContext);
-    const { categories, filterPostsFromCategory } = usePosts();
+    const { categories, filterPosts } = usePosts();
 
     const [currentCategoryId, setCurrentCategoryId] = useState<string | null>(null);
+    const [currentCity, setCurrentCity] = useState<string | null>(null);
 
     function renderCreatePostModal() {
         return user?.userType === 'provider' && (
@@ -28,7 +30,11 @@ export function Services() {
         setCurrentCategoryId(e.target.value);
     }
 
-    const filteredPosts = filterPostsFromCategory(currentCategoryId);
+    function handleChangeCurrentCity(e: ChangeEvent<HTMLSelectElement>) {
+        setCurrentCity(e.target.value);
+    }
+
+    const filteredPosts = filterPosts(currentCategoryId, currentCity);
 
     return (
         <ServicesContainer>
@@ -45,9 +51,7 @@ export function Services() {
                             </option>
                         })}
                     </Select>
-                    <Select>
-                        <option value="" defaultChecked>Região</option>
-                    </Select>
+                    <CitySelect onChange={handleChangeCurrentCity}/>
             </div>
                 {renderCreatePostModal()}
             </ServicesActions>

@@ -1,25 +1,28 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { PostModel } from "../api/services/models/PostModel";
-import { GetPosts } from "../api/services/post-api";
-import { LoadingContext } from "../contexts/LoadingContext";
 import { PostsContext } from "../contexts/PostsContext";
 
 export function usePosts() {
-    const { posts, categories } = useContext(PostsContext);
+    const { posts, categories, cities } = useContext(PostsContext);
 
     function sendMessageToProvider(post: PostModel) {
         const message = `Olá ${post.provider.name}, vi seu post no Outdoor e gostaria de realizar um orçamento do serviço ${post.title}`
         window.open(`https://wa.me/${post.contactNumber}?text=${message}`, '_blank')
     }
 
-    function filterPostsFromCategory(categoryId: string | null) {
-        return categoryId ? posts.filter(post => post.categoryId === categoryId) : posts;
+    function filterPosts(categoryId: string | null, city: string | null) {
+        if (categoryId || city) {
+            return posts.filter(post => post.categoryId === categoryId || post.city.toLowerCase() === city?.toLowerCase());
+        }
+
+        return posts;
     }
 
     return {
         posts,
+        cities,
         categories,
         sendMessageToProvider,
-        filterPostsFromCategory
+        filterPosts
     }
 }
