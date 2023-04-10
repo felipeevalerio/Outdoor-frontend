@@ -1,14 +1,14 @@
-import { ReactNode, createContext, useCallback, useContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { CategoryModel, PostModel } from "../api/services/models/PostModel";
 import { LoadingContext } from "./LoadingContext";
 import { GetCategories, GetPosts } from "../api/services/post-api";
-import { GetAllCities } from "../api/geolocation/geolocation-api";
-import { CityModel } from "../api/geolocation/models/CityModel";
+import { GetAllStates } from "../api/geolocation/geolocation-api";
+import { CityModel, StateModel } from "../api/geolocation/models/CityModel";
 
 interface PostsContextTypes {
     posts: PostModel[];
     categories: CategoryModel[];
-    cities: CityModel[];
+    states: StateModel[];
 }
 
 export const PostsContext = createContext({} as PostsContextTypes);
@@ -22,7 +22,7 @@ export function PostsProvider({ children }: IPostsProviderProps) {
     
     const [posts, setPosts] = useState<PostModel[]>([]);
     const [categories, setCategories] = useState<CategoryModel[]>([]);
-    const [cities, setCities] = useState<CityModel[]>([]);
+    const [states, setStates] = useState<StateModel[]>([]);
 
     useEffect(() => {
         getAllCategoriesAndPosts();
@@ -31,16 +31,16 @@ export function PostsProvider({ children }: IPostsProviderProps) {
     async function getAllCategoriesAndPosts() {
         handleLoadingVisibility(true)
 
-        const result = await Promise.all([GetPosts(), GetCategories(), GetAllCities()]);
+        const result = await Promise.all([GetPosts(), GetCategories(), GetAllStates()]);
         setPosts(result[0]);
         setCategories(result[1])
-        setCities(result[2])
+        setStates(result[2])
 
         handleLoadingVisibility(false)
     }
 
     return (
-        <PostsContext.Provider value={{posts, categories, cities}}>
+        <PostsContext.Provider value={{posts, categories, states}}>
             {children}
         </PostsContext.Provider>
     )

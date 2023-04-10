@@ -7,13 +7,22 @@ import { CreatePostModal } from "./components/CreatePostModal";
 import * as Dialog from "@radix-ui/react-dialog";
 import { UserContext } from "../../contexts/UserContext";
 import { CitySelect } from "../../components/CitySelect";
+import { CityModel } from "../../api/geolocation/models/CityModel";
+import { StateSelect } from "../../components/StateSelect";
 
 export function Services() {
     const { user } = useContext(UserContext);
-    const { categories, filterPosts } = usePosts();
+    const { categories, filterPosts, states, getCitiesByUF} = usePosts();
 
     const [currentCategoryId, setCurrentCategoryId] = useState<string | null>(null);
     const [currentCity, setCurrentCity] = useState<string | null>(null);
+    const [currentState, setCurrentState] = useState<string | null>(null);
+
+    const [cities, setCities] = useState<CityModel[]>([]);
+
+    useEffect(() => {
+        handleGetCitiesByUF();
+    }, [currentState]);
 
     function renderCreatePostModal() {
         return user?.userType === 'provider' && (
@@ -34,25 +43,46 @@ export function Services() {
         setCurrentCity(e.target.value);
     }
 
-    const filteredPosts = filterPosts(currentCategoryId, currentCity);
+    function handleChangeCurrentState(e: ChangeEvent<HTMLSelectElement>) {
+        setCurrentState(e.target.value);
+    }
+
+    async function handleGetCitiesByUF() {
+        if (!currentState) {
+            return;
+        }
+
+        const response = await getCitiesByUF(currentState)
+        setCities(response);
+    }
+
+    function renderSelects() {
+        return (
+            <div className="selects-container">
+            <Select onChange={handleChangeCurrentCategory} defaultValue=''>
+                <option value="" >Selecione uma categoria</option>
+                {categories.map(category => {
+                    return <option
+                        key={category.id} 
+                        value={category.id}
+                    >
+                        {category.name}
+                    </option>
+                })}
+            </Select>
+
+            <StateSelect onChange={handleChangeCurrentState}/>
+            <CitySelect cities={cities} disabled={!currentState} onChange={handleChangeCurrentCity}/>
+        </div>
+        );
+    }
+
+    const filteredPosts = filterPosts(currentCategoryId, currentCity, currentState);
 
     return (
         <ServicesContainer>
             <ServicesActions>
-                <div className="selects-container">
-                    <Select onChange={handleChangeCurrentCategory} defaultValue=''>
-                        <option value="" >Selecione uma categoria</option>
-                        {categories.map(category => {
-                            return <option
-                                key={category.id} 
-                                value={category.id}
-                            >
-                                {category.name}
-                            </option>
-                        })}
-                    </Select>
-                    <CitySelect onChange={handleChangeCurrentCity}/>
-            </div>
+                {renderSelects()}
                 {renderCreatePostModal()}
             </ServicesActions>
             <ListServices posts={filteredPosts}/>
