@@ -14,11 +14,18 @@ export function usePosts() {
     }
 
     function filterPosts(categoryId: string | null, city: string | null, state: string | null) {
-        if (categoryId || city || state) {
-            return posts.filter(post => post.categoryId === categoryId || post.city.toLowerCase() === city?.toLowerCase() || state === post.state);
-        }
-
-        return posts;
+        return posts.reduce((filtered: PostModel[], post) => {
+            if (categoryId && post.categoryId !== categoryId) {
+              return filtered;
+            }
+            if (city && post.city !== city) {
+              return filtered;
+            }
+            if (state && post.state !== state) {
+              return filtered;
+            }
+            return [...filtered, post];
+          }, []);
     }
     
     async function getCitiesByUF(uf: string | null) {

@@ -34,6 +34,7 @@ export function Post({ post }: IPostProps) {
                     </div>
                     <RatingInfo rating={post.rating}/>
                 </UserInfo>
+                    <span>{post.city} - {post.district}</span>
             </PostInfo>
             <PostActions>
                 <HireButton onClick={handleHirePost}>Contratar</HireButton>

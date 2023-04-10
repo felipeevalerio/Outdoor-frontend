@@ -1,3 +1,4 @@
+import { axiosInstance } from "../../contexts/AxiosContext";
 import { CategoryModel, PostModel } from "./models/PostModel";
 
 const postsMock: PostModel[] = [
@@ -66,7 +67,6 @@ export async function GetPosts(): Promise<PostModel[]>{
 }
 
 export async function GetCategories(): Promise<CategoryModel[]> {
-    return categoriesMock;
-    // const resposta = await axios.get('/categories');
-    // return resposta.data; 
+    const resposta = await axiosInstance.get('/categories');
+    return resposta.data; 
 }
