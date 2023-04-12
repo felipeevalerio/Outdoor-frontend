@@ -3,10 +3,12 @@ import { CategoryModel, PostModel } from "../api/services/models/PostModel";
 import { LoadingContext } from "./LoadingContext";
 import { GetCategories, GetPosts } from "../api/services/post-api";
 import { GetAllStates } from "../api/geolocation/geolocation-api";
-import { CityModel, StateModel } from "../api/geolocation/models/CityModel";
+import { StateModel } from "../api/geolocation/models/CityModel";
 
 interface PostsContextTypes {
     posts: PostModel[];
+    insertNewPost: (newPost: PostModel) => void;
+    changePosts: (newPosts: PostModel[]) => void;
     categories: CategoryModel[];
     states: StateModel[];
 }
@@ -28,6 +30,14 @@ export function PostsProvider({ children }: IPostsProviderProps) {
         getAllCategoriesAndPosts();
     }, []);
 
+    function changePosts(newPosts: PostModel[]) {
+        setPosts(newPosts);
+    }
+
+    function insertNewPost(newPost: PostModel) {
+        setPosts(state => [...state, newPost]);
+    }
+
     async function getAllCategoriesAndPosts() {
         handleLoadingVisibility(true)
 
@@ -40,7 +50,7 @@ export function PostsProvider({ children }: IPostsProviderProps) {
     }
 
     return (
-        <PostsContext.Provider value={{posts, categories, states}}>
+        <PostsContext.Provider value={{posts, categories, states, insertNewPost, changePosts}}>
             {children}
         </PostsContext.Provider>
     )

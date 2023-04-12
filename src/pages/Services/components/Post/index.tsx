@@ -29,8 +29,8 @@ export function Post({ post }: IPostProps) {
                 <p className="description">{post.description}</p>
                 <UserInfo>
                     <div className="user-details">
-                        <img src={post.provider.avatar} alt="" />
-                        <p>{post.provider.name}</p>
+                        <img src={post.user?.avatar} alt="" />
+                        <p>{post.user?.name}</p>
                     </div>
                     <RatingInfo rating={post.rating}/>
                 </UserInfo>

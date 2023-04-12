@@ -3,14 +3,18 @@ import { PostModel } from "../api/services/models/PostModel";
 import { PostsContext } from "../contexts/PostsContext";
 import { LoadingContext } from "../contexts/LoadingContext";
 import { GetAllCitiesFromUF } from "../api/geolocation/geolocation-api";
+import { CreatePostFormInputs } from "../pages/Services/components/CreatePostModal";
+import { CreatePost } from "../api/services/post-api";
 
 export function usePosts() {
-    const { posts, categories, states } = useContext(PostsContext);
+    const { posts, categories, states, insertNewPost} = useContext(PostsContext);
     const { handleLoadingVisibility } = useContext(LoadingContext);
 
     function sendMessageToProvider(post: PostModel) {
-        const message = `Olá ${post.provider.name}, vi seu post no Outdoor e gostaria de realizar um orçamento do serviço ${post.title}`
+      if (post.user) {
+        const message = `Olá ${post.user.name}, vi seu post no Outdoor e gostaria de realizar um orçamento do serviço ${post.title}`
         window.open(`https://wa.me/${post.contactNumber}?text=${message}`, '_blank')
+      }
     }
 
     function filterPosts(categoryId: string | null, city: string | null, state: string | null) {
@@ -39,10 +43,19 @@ export function usePosts() {
         return cities;
     }
 
+    async function createPost(data: CreatePostFormInputs) {
+      handleLoadingVisibility(true)
+      const post = await CreatePost(data);
+      insertNewPost(post);
+      handleLoadingVisibility(false)
+    }
+
     return {
         posts,
         states,
         categories,
+        insertNewPost,
+        createPost,
         sendMessageToProvider,
         filterPosts,
         getCitiesByUF

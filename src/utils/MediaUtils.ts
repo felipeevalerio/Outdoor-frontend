@@ -1,10 +1,8 @@
 export function convertFileToBase64(file: File) {
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function () {
-        console.log(reader.result);
-    };
-    reader.onerror = function (error) {
-        console.log('Error: ', error);
-    };
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = erro => reject(erro);
+      });
 }

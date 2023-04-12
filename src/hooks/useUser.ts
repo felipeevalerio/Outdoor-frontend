@@ -7,7 +7,7 @@ import { StorageKeys, useStorage } from "./useStorage";
 import { LoadingContext } from "../contexts/LoadingContext";
 
 export function useUser() {
-    const { handleChangeUser } = useContext(UserContext);
+    const { user, handleChangeUser } = useContext(UserContext);
     const { handleLoadingVisibility } = useContext(LoadingContext);
 
     const { removeFromLocalStorage } = useStorage();
@@ -41,6 +41,7 @@ export function useUser() {
 
     return {
         loginUser,
+        user,
         registerUser,
         logoutUser
     }

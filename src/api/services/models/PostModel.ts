@@ -1,3 +1,4 @@
+import { CreatePostFormInputs } from "../../../pages/Services/components/CreatePostModal";
 import { UserModel } from "../../user/models/UserModel";
 
 export interface PostModel {
@@ -12,9 +13,11 @@ export interface PostModel {
     image: string;
     rating: number;
     createdAt: Date;
-    provider: UserModel;
+    user: UserModel;
 }
 
+
+export type CreatePostRequest = CreatePostFormInputs;
 export interface CategoryModel {
     id: string;
     name: string;
