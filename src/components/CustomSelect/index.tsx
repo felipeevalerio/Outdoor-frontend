@@ -10,20 +10,20 @@ interface ICustomSelectProps {
   control: any;
   controllerName: string;
   items: ISelectOptions[];
+  placeholder?: string;
 }
 
-export function CustomSelect({ control, controllerName, items} : ICustomSelectProps) {
-  return (
+export function CustomSelect({ control, controllerName, items , placeholder} : ICustomSelectProps) {
+  return items && (
     <Controller 
     control={control}
     name={controllerName}
     render={({field}) => {
       return (
-        <Select onChange={field.onChange} value={field.value}>
+        <Select onChange={field.onChange} value={field.value} defaultValue=''>
+          {placeholder && <option key='placeholder' value=''>{placeholder}</option>}
           {items.map((item) => {
-            return (
-              <option key={item.value} value={item.value}>{item.title}</option>
-            )
+              return <option key={item.value} value={item.value}>{item.title}</option>
           })}
         </Select>
       )

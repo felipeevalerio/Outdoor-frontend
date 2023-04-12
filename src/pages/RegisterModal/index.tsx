@@ -46,7 +46,7 @@ export function RegisterModal({ setCurrentModal }: IRegisterModal) {
     });
 
     async function handleRegister(data: RegisterUserFormInput) {
-        registerUser(data);
+        await registerUser(data);
         reset();
     }
 

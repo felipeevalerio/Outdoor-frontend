@@ -5,7 +5,7 @@ import { Logo } from "../Logo";
 import * as Dialog from '@radix-ui/react-dialog';
 import { LoginModal } from "../../pages/LoginModal";
 import { UserContext } from "../../contexts/UserContext";
-import { MouseEvent, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { RegisterModal } from "../../pages/RegisterModal";
 import { useUser } from "../../hooks/useUser";
 
