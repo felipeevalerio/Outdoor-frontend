@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes } from "react";
 import { ButtonContainer } from "./styles";
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: 'purple'
+    variant?: 'purple' |  'green'
 }
 
 export function Button({ variant = 'purple', children, ...props }: IButtonProps) {
