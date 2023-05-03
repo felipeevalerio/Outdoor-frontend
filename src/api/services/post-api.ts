@@ -2,8 +2,8 @@ import { axiosInstance } from "../../contexts/AxiosContext";
 import { CategoryModel, CreatePostRequest, PostModel } from "./models/PostModel";
 
 export async function GetPosts(): Promise<PostModel[]>{
-    const resposta = await axiosInstance.get('/post');
-    return resposta.data; 
+    const response = await axiosInstance.get('/post');
+    return response.data; 
 }
 
 export async function GetCategories(): Promise<CategoryModel[]> {
@@ -11,8 +11,13 @@ export async function GetCategories(): Promise<CategoryModel[]> {
     return response.data; 
 }
 
-
 export async function CreatePost(post: CreatePostRequest): Promise<PostModel>{
     const response = await axiosInstance.post('/post', post);
+    return response.data;
+}
+
+export async function GetPostsFromUser(userId: string) {
+    const response = await axiosInstance.get('/post');
+    // const response = await axiosInstance.get(`/users/${userId}/posts`);
     return response.data;
 }
