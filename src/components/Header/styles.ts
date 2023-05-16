@@ -92,7 +92,6 @@ export const SignInSignUpButton = styled.button<SignInSignUpButtonProps>`
     &:hover .userMenu {
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
         position: absolute;
         content: '';
         background: ${props => props.theme["gray-300"]};
@@ -106,7 +105,8 @@ export const SignInSignUpButton = styled.button<SignInSignUpButtonProps>`
             list-style: none;
             padding: 0.5rem 1rem;
             transition: all 0.1s ease;
-
+            border-bottom: 1px solid ${props => props.theme["gray-500"]};
+            
             &:hover {
                 background-color: ${props => props.theme["purple-300"]};
                 color: ${props => props.theme.white};

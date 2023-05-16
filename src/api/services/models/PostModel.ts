@@ -18,6 +18,7 @@ export interface PostModel {
 
 
 export type CreatePostRequest = CreatePostFormInputs;
+
 export interface CategoryModel {
     id: string;
     name: string;

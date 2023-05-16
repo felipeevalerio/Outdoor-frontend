@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const PostContainer = styled.article`
@@ -10,6 +9,7 @@ export const PostContainer = styled.article`
     .image {
         object-fit: cover;
         border-radius: 8px;
+        height: 218px;
     }
 `
 

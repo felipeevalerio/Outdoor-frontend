@@ -51,12 +51,17 @@ export function Header() {
         logoutUser()
     }
 
+    function redirectUserToMyServices() {
+        redirectUserToPage('/meus-servicos');
+    }
+
     function renderSignInButtonOrProfileInfo() {
         return (
             <SignInSignUpButton userHaveAvatar={!!user?.avatar}>
                 <img src={user?.avatar || signInSignUpImg} alt="" />
                 <span>{userFirstName}</span>
                 {user && <ul className="userMenu">
+                    <li onClick={redirectUserToMyServices}>Meus serviços</li>
                     <li onClick={handleLogoutUser}>Encerrar sessão</li>
                 </ul>
                 }

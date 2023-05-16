@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 interface IButtonContainerProps {
-    variant: 'purple' | 'green'
+    variant: 'purple' | 'green' | 'red'
 }
 
 export const ButtonContainer = styled.button<IButtonContainerProps>`
@@ -29,6 +29,15 @@ export const ButtonContainer = styled.button<IButtonContainerProps>`
 
         &:hover {
             background-color: ${props.theme["green-300"]}
+        }
+    `}
+
+    ${props => props.variant === 'red' && css`
+        background-color: ${props.theme["red-500"]};
+        color: ${props.theme.white};
+
+        &:hover {
+            background-color: ${props.theme["red-300"]}
         }
     `}
 `

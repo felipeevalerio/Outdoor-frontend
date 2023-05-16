@@ -1,9 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { PostModel } from "../../../../api/services/models/PostModel";
 import { HireButton, PostActions, PostContainer, PostInfo, UserInfo } from "./styles";
 import { RatingInfo } from "../../../../components/RatingInfo";
 import { Heart } from "phosphor-react";
 import { usePosts } from "../../../../hooks/usePosts";
+import PlaceholderImg from '../../../../assets/placeholder.png';
 
 interface IPostProps {
     post: PostModel;
@@ -23,7 +24,7 @@ export function Post({ post }: IPostProps) {
 
     return (
         <PostContainer>
-            <img className="image" src={post.image} alt="" />
+            <img className="image" src={post.image ?? PlaceholderImg} alt="" />
             <PostInfo>
                 <h2>{post.title}</h2>
                 <p className="description">{post.description}</p>

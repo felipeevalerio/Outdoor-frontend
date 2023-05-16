@@ -1,14 +1,16 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { PostModel } from "../api/services/models/PostModel";
 import { PostsContext } from "../contexts/PostsContext";
 import { LoadingContext } from "../contexts/LoadingContext";
 import { GetAllCitiesFromUF } from "../api/geolocation/geolocation-api";
 import { CreatePostFormInputs } from "../pages/Services/components/CreatePostModal";
-import { CreatePost } from "../api/services/post-api";
+import { CreatePost, DeletePost, GetPostsFromUser } from "../api/services/post-api";
 
 export function usePosts() {
     const { posts, categories, states, insertNewPost} = useContext(PostsContext);
     const { handleLoadingVisibility } = useContext(LoadingContext);
+
+    const [userPosts, setUserPosts] = useState<PostModel[]>([]);
 
     function sendMessageToProvider(post: PostModel) {
       if (post.user) {
@@ -50,12 +52,28 @@ export function usePosts() {
       handleLoadingVisibility(false)
     }
 
+    async function getPostsFromUser(userId: string) {
+      handleLoadingVisibility(true)
+      const userPostsResponse = await GetPostsFromUser(userId) ?? [];
+      setUserPosts(userPostsResponse);
+      handleLoadingVisibility(false)
+    }
+
+    async function deletePost(postId: string) {
+      handleLoadingVisibility(true)
+      await DeletePost(postId);
+      handleLoadingVisibility(false)
+    }
+
     return {
         posts,
         states,
+        deletePost,
         categories,
         insertNewPost,
+        getPostsFromUser,
         createPost,
+        userPosts,
         sendMessageToProvider,
         filterPosts,
         getCitiesByUF

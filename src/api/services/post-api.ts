@@ -17,7 +17,11 @@ export async function CreatePost(post: CreatePostRequest): Promise<PostModel>{
 }
 
 export async function GetPostsFromUser(userId: string) {
-    const response = await axiosInstance.get('/post');
-    // const response = await axiosInstance.get(`/users/${userId}/posts`);
+    const response = await axiosInstance.get(`/users/posts?ID=${userId}`);
+    return response.data;
+}
+
+export async function DeletePost(postId: string) {
+    const response = await axiosInstance.delete(`/post?postId=${postId}`);
     return response.data;
 }
