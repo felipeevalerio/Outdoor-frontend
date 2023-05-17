@@ -54,13 +54,6 @@ export const SignInSignUpButton = styled.button<SignInSignUpButtonProps>`
     color: ${props => props.theme["gray-500"]};
     padding-top: 0.5rem;
 
-    img {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        position: relative;
-        object-fit: cover;
-    }
 
     ${props => !props.userHaveAvatar && 
         css`
@@ -92,7 +85,6 @@ export const SignInSignUpButton = styled.button<SignInSignUpButtonProps>`
     &:hover .userMenu {
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
         position: absolute;
         content: '';
         background: ${props => props.theme["gray-300"]};
@@ -106,7 +98,8 @@ export const SignInSignUpButton = styled.button<SignInSignUpButtonProps>`
             list-style: none;
             padding: 0.5rem 1rem;
             transition: all 0.1s ease;
-
+            border-bottom: 1px solid ${props => props.theme["gray-500"]};
+            
             &:hover {
                 background-color: ${props => props.theme["purple-300"]};
                 color: ${props => props.theme.white};

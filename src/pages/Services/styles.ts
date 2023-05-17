@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const ServicesContainer = styled.main`
@@ -26,4 +27,17 @@ export const Select = styled.select`
     border-radius: 4px;
     padding: 0.75rem 1rem;
     min-width: 160px;
+`
+
+export const ProviderButtonsArea = styled.div`
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    min-width: 240px;
+    justify-content: flex-end;
+    gap: 1rem;
+`
+
+export const CustomLinkWithChildren = styled(Link)`
+    width: 100%;
 `

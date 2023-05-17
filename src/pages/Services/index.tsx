@@ -1,7 +1,7 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { usePosts } from "../../hooks/usePosts";
 import { ListServices } from "./components/ListServices";
-import { Select, ServicesActions, ServicesContainer } from "./styles";
+import { CustomLinkWithChildren, ProviderButtonsArea, Select, ServicesActions, ServicesContainer } from "./styles";
 import { Button } from "../../components/Button";
 import { CreatePostModal } from "./components/CreatePostModal";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -9,6 +9,7 @@ import { UserContext } from "../../contexts/UserContext";
 import { CitySelect } from "../../components/CitySelect";
 import { CityModel } from "../../api/geolocation/models/CityModel";
 import { StateSelect } from "../../components/StateSelect";
+import { Routes } from "../../routes";
 
 export function Services() {
     const { user } = useContext(UserContext);
@@ -25,7 +26,7 @@ export function Services() {
     }, [currentState]);
 
     function renderCreatePostModal() {
-        return user?.userType === 'provider' && (
+        return (
             <Dialog.Root>
                 <Dialog.Trigger asChild>
                     <Button>Cadastrar serviço</Button>
@@ -56,6 +57,16 @@ export function Services() {
         setCities(response);
     }
 
+    function renderManagePostsButton() {
+        return (
+            <CustomLinkWithChildren
+                to={Routes.MyServices}
+            >   
+                <Button variant='green'>Gerenciar posts</Button>
+            </CustomLinkWithChildren>
+        )
+    }
+
     function renderSelects() {
         return (
             <div className="selects-container">
@@ -83,7 +94,12 @@ export function Services() {
         <ServicesContainer>
             <ServicesActions>
                 {renderSelects()}
-                {renderCreatePostModal()}
+                {user?.userType === 'provider' && (
+                    <ProviderButtonsArea>
+                        {renderManagePostsButton()}
+                        {renderCreatePostModal()}
+                    </ProviderButtonsArea>
+                )}
             </ServicesActions>
             <ListServices posts={filteredPosts}/>
             

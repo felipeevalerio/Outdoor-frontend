@@ -16,8 +16,30 @@ export interface PostModel {
     user: UserModel;
 }
 
+export interface PostDetailsModel extends PostModel {
+    comments: CommentModel[]
+}
+
+export interface CommentModel {
+    id: string;
+    image: string;
+    review: string;
+    rating: number;
+    createdAt: string;
+    userId: string;
+    postId: string;
+}
+
+export interface CommentRequestModel {
+    image: any;
+    review: string;
+    rating: number;
+    userId: string;
+    postId: string;
+}
 
 export type CreatePostRequest = CreatePostFormInputs;
+
 export interface CategoryModel {
     id: string;
     name: string;

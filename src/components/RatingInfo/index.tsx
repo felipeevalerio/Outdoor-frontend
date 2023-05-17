@@ -9,7 +9,7 @@ export function RatingInfo({ rating }: IRatingInfoProps) {
     return rating > 0 ? (
         <RatingInfoContainer>
             <Star size={24} weight="fill"/>
-            <strong>{rating.toFixed(2)}</strong>
+            <strong>{rating.toFixed(1)}</strong>
         </RatingInfoContainer>
     ) : <MessageNoRating className="no-rating">Ainda não existem avaliações</MessageNoRating>
 }

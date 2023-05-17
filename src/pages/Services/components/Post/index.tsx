@@ -1,9 +1,12 @@
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { PostModel } from "../../../../api/services/models/PostModel";
 import { HireButton, PostActions, PostContainer, PostInfo, UserInfo } from "./styles";
 import { RatingInfo } from "../../../../components/RatingInfo";
 import { Heart } from "phosphor-react";
 import { usePosts } from "../../../../hooks/usePosts";
+import PlaceholderImg from '../../../../assets/placeholder.png';
+import signInSignUpImg from '../../../../assets/SignInSignUp.png'
+import { Avatar } from "../../../../components/Avatar";
 
 interface IPostProps {
     post: PostModel;
@@ -13,7 +16,8 @@ export function Post({ post }: IPostProps) {
     const [favoriteButtonWeight, setFavoriteButtonWeight] = useState<'fill' | 'regular'>('regular');
     const { sendMessageToProvider } = usePosts();
 
-    function handleHirePost() {
+    function handleHirePost(event: any) {
+        event.preventDefault();
         sendMessageToProvider(post);
     }
 
@@ -22,14 +26,15 @@ export function Post({ post }: IPostProps) {
     }
 
     return (
-        <PostContainer>
-            <img className="image" src={post.image} alt="" />
+        <PostContainer to={`/servicos/${post.id}`}>
+            <>
+            <img className="image" src={post.image ?? PlaceholderImg} alt="" />
             <PostInfo>
                 <h2>{post.title}</h2>
                 <p className="description">{post.description}</p>
                 <UserInfo>
                     <div className="user-details">
-                        <img src={post.user?.avatar} alt="" />
+                        <Avatar/>
                         <p>{post.user?.name}</p>
                     </div>
                     <RatingInfo rating={post.rating}/>
@@ -47,6 +52,7 @@ export function Post({ post }: IPostProps) {
                     />
                 </button>
             </PostActions>
+            </>
         </PostContainer>
     );
 }

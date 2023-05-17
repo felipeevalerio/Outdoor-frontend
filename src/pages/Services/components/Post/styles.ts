@@ -1,15 +1,25 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export const PostContainer = styled.article`
+export const PostContainer = styled(Link)`
     display: flex;
     flex-direction: column;
     gap: 1rem;
     max-width: 320px;
+    color: ${props => props.theme["text"]};
+    text-decoration: none;
+    border: 2px solid transparent;
+    padding: 1rem;
+    border-radius: 4px;
+
+    &:hover {
+        border-color: ${props => props.theme["purple-500"]};
+    }
 
     .image {
         object-fit: cover;
         border-radius: 8px;
+        height: 218px;
     }
 `
 
