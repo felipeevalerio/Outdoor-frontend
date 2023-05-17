@@ -31,7 +31,7 @@ export interface CommentModel {
 }
 
 export interface CommentRequestModel {
-    image: string;
+    image: any;
     review: string;
     rating: number;
     userId: string;

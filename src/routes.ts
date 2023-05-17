@@ -3,5 +3,6 @@ export enum Routes {
     Home = '/',
     Services = '/servicos',
     ServiceDetails = '/servicos/:idServico',
-    Contacts = '/contatos'
+    Contacts = '/contatos',
+    Profile = '/meu-perfil'
 }

@@ -74,7 +74,7 @@ export function PostDetails() {
                     <PostNotFoundMessage>Seja o primeiro a comentar!</PostNotFoundMessage>
                 )}
 
-                {!userAlreadyCommented && <CreateComment/>}
+                {(!userAlreadyCommented && user?.userType === 'client') && <CreateComment postId={currentPost.id}/>}
             </CommentSection>
         </PostDetailsContainer>
     )

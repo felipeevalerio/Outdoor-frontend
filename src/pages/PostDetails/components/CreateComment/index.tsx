@@ -8,13 +8,14 @@ import { Star } from "../../../../components/Star";
 import { Button } from "../../../../components/Button";
 import { usePosts } from "../../../../hooks/usePosts";
 import { UserContext } from "../../../../contexts/UserContext";
+import { convertFileToBase64 } from "../../../../utils/MediaUtils";
 
 export interface CreateCommentProps {
     postId: string;
 }
 
 const createCommentSchema = z.object({
-    image: z.string(),
+    image: z.any(),
     review: z.string(),    
 })
 
@@ -31,13 +32,22 @@ export function CreateComment({ postId }: CreateCommentProps) {
     });
 
     async function createComment(data: CreateCommentFormInputs) {
+        let convertedFile;
+        const isAFileObject = typeof data.image === 'object';
+
+        if (isAFileObject && data.image?.length > 0) {
+            convertedFile = await convertFileToBase64(data.image[0]);
+        }
+
         await insertComment({
-            image: data.image,
+            image: convertedFile,
             postId: postId,
             rating: notaDaAvaliacao,
             review: data.review,
             userId: user!.id
         });
+
+        location.reload();
     }
 
     return (
