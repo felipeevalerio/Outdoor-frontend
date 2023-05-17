@@ -4,7 +4,17 @@ import { PostsContext } from "../contexts/PostsContext";
 import { LoadingContext } from "../contexts/LoadingContext";
 import { GetAllCitiesFromUF } from "../api/geolocation/geolocation-api";
 import { CreatePostFormInputs } from "../pages/Services/components/CreatePostModal";
-import { CreatePost, DeletePost, GetPostsFromUser } from "../api/services/post-api";
+import { CreatePost, DeletePost, EditPost, GetPostsFromUser } from "../api/services/post-api";
+import { EditPostFormInputs } from "../pages/MyServices/components/EditPostModal";
+
+export interface EditPostRequest extends EditPostFormInputs {
+  id: string;
+  userId: string;
+}
+
+interface MyPostsResponse extends PostModel {
+  mobileNumber: string;
+}
 
 export function usePosts() {
     const { posts, categories, states, insertNewPost} = useContext(PostsContext);
@@ -54,8 +64,12 @@ export function usePosts() {
 
     async function getPostsFromUser(userId: string) {
       handleLoadingVisibility(true)
-      const userPostsResponse = await GetPostsFromUser(userId) ?? [];
-      setUserPosts(userPostsResponse);
+      const userPostsResponse: MyPostsResponse[] = await GetPostsFromUser(userId) ?? [];
+      const formatedResponse = userPostsResponse.map((post) => {
+          return {...post, contactNumber: post.mobileNumber}
+      })
+      
+      setUserPosts(formatedResponse);
       handleLoadingVisibility(false)
     }
 
@@ -65,8 +79,16 @@ export function usePosts() {
       handleLoadingVisibility(false)
     }
 
+    
+    async function editPost(data: EditPostRequest) {
+      handleLoadingVisibility(true)
+      await EditPost(data);
+      handleLoadingVisibility(false)
+    }
+
     return {
         posts,
+        editPost,
         states,
         deletePost,
         categories,

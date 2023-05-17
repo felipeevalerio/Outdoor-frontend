@@ -1,4 +1,6 @@
 import { axiosInstance } from "../../contexts/AxiosContext";
+import { EditPostRequest } from "../../hooks/usePosts";
+import { EditPostFormInputs } from "../../pages/MyServices/components/EditPostModal";
 import { CategoryModel, CreatePostRequest, PostModel } from "./models/PostModel";
 
 export async function GetPosts(): Promise<PostModel[]>{
@@ -13,6 +15,11 @@ export async function GetCategories(): Promise<CategoryModel[]> {
 
 export async function CreatePost(post: CreatePostRequest): Promise<PostModel>{
     const response = await axiosInstance.post('/post', post);
+    return response.data;
+}
+
+export async function EditPost(post: EditPostRequest): Promise<PostModel>{
+    const response = await axiosInstance.put('/post', post);
     return response.data;
 }
 

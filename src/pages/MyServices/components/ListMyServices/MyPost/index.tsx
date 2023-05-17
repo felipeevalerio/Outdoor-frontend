@@ -1,9 +1,11 @@
+import * as Dialog from "@radix-ui/react-dialog";
 import { PostModel } from "../../../../../api/services/models/PostModel";
 import PlaceholderImg from '../../../../../assets/placeholder.png';
 import { Button } from "../../../../../components/Button";
 import { RatingInfo } from "../../../../../components/RatingInfo";
 import { usePosts } from "../../../../../hooks/usePosts";
 import { MyPostActions, MyPostActionsAndRating, MyPostContainer, MyPostInfo } from "./styles";
+import { EditPostModal } from "../../EditPostModal";
 
 interface IMyPostProps {
     post: PostModel;
@@ -11,6 +13,17 @@ interface IMyPostProps {
 
 export function MyPost({post}: IMyPostProps) {
     const { deletePost } = usePosts();
+    
+    function renderEditPostModal() {
+        return (
+            <Dialog.Root>
+                <Dialog.Trigger asChild>
+                    <Button>Editar</Button>
+                </Dialog.Trigger>
+                <EditPostModal post={post}/>
+            </Dialog.Root>
+        )
+    }
 
     async function handleDeletePost() {
         const confirmation = confirm(`Você tem certeza que deseja excluir o serviço '${post.title}'`)
@@ -32,7 +45,7 @@ export function MyPost({post}: IMyPostProps) {
             <MyPostActionsAndRating>
                 <RatingInfo rating={post.rating}/>
                 <MyPostActions>
-                    <Button>Editar</Button>
+                    {renderEditPostModal()}
                     <Button 
                         variant="red"
                         onClick={handleDeletePost}
@@ -41,6 +54,7 @@ export function MyPost({post}: IMyPostProps) {
                     </Button>
                 </MyPostActions>
             </MyPostActionsAndRating>
+
         </MyPostContainer>
     )
 }
