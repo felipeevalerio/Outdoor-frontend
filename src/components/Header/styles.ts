@@ -54,13 +54,6 @@ export const SignInSignUpButton = styled.button<SignInSignUpButtonProps>`
     color: ${props => props.theme["gray-500"]};
     padding-top: 0.5rem;
 
-    img {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        position: relative;
-        object-fit: cover;
-    }
 
     ${props => !props.userHaveAvatar && 
         css`

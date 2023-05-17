@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
-import { PostModel } from "../api/services/models/PostModel";
+import { CommentRequestModel, PostDetailsModel, PostModel } from "../api/services/models/PostModel";
 import { PostsContext } from "../contexts/PostsContext";
 import { LoadingContext } from "../contexts/LoadingContext";
 import { GetAllCitiesFromUF } from "../api/geolocation/geolocation-api";
 import { CreatePostFormInputs } from "../pages/Services/components/CreatePostModal";
-import { CreatePost, DeletePost, EditPost, GetPostsFromUser } from "../api/services/post-api";
+import { CreatePost, DeletePost, EditPost, GetPostById, GetPostsFromUser, InsertCommentInPost } from "../api/services/post-api";
 import { EditPostFormInputs } from "../pages/MyServices/components/EditPostModal";
 
 export interface EditPostRequest extends EditPostFormInputs {
@@ -21,6 +21,7 @@ export function usePosts() {
     const { handleLoadingVisibility } = useContext(LoadingContext);
 
     const [userPosts, setUserPosts] = useState<PostModel[]>([]);
+    const [currentPost, setCurrentPost] = useState<PostDetailsModel | null>(null);
 
     function sendMessageToProvider(post: PostModel) {
       if (post.user) {
@@ -73,6 +74,20 @@ export function usePosts() {
       handleLoadingVisibility(false)
     }
 
+    async function insertComment(request: CommentRequestModel) {
+      handleLoadingVisibility(true)
+      const response = await InsertCommentInPost(request);
+      setCurrentPost(response);
+      handleLoadingVisibility(false)
+    }
+
+    async function getPostById(postId: string) {
+      handleLoadingVisibility(true)
+      const response = await GetPostById(postId);
+      setCurrentPost(response);
+      handleLoadingVisibility(false)
+    }
+
     async function deletePost(postId: string) {
       handleLoadingVisibility(true)
       await DeletePost(postId);
@@ -89,11 +104,14 @@ export function usePosts() {
     return {
         posts,
         editPost,
+        getPostById,
         states,
+        insertComment,
         deletePost,
         categories,
         insertNewPost,
         getPostsFromUser,
+        currentPost,
         createPost,
         userPosts,
         sendMessageToProvider,

@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { HeaderContainer, LinkButton, LinksContainer, MainLinks, SignInSignUpButton } from "./styles";
-import signInSignUpImg from '../../assets/SignInSignUp.png'
 import { Logo } from "../Logo";
 import * as Dialog from '@radix-ui/react-dialog';
 import { LoginModal } from "../../pages/LoginModal";
@@ -8,6 +7,7 @@ import { UserContext } from "../../contexts/UserContext";
 import { useContext, useState } from "react";
 import { RegisterModal } from "../../pages/RegisterModal";
 import { useUser } from "../../hooks/useUser";
+import { Avatar } from "../Avatar";
 
 interface INavLink {
     title: string;
@@ -58,10 +58,10 @@ export function Header() {
     function renderSignInButtonOrProfileInfo() {
         return (
             <SignInSignUpButton userHaveAvatar={!!user?.avatar}>
-                <img src={user?.avatar || signInSignUpImg} alt="" />
+                <Avatar/>
                 <span>{userFirstName}</span>
                 {user && <ul className="userMenu">
-                    <li onClick={redirectUserToMyServices}>Meus serviços</li>
+                    {user.userType === 'provider' && <li onClick={redirectUserToMyServices}>Meus serviços</li>}
                     <li onClick={handleLogoutUser}>Encerrar sessão</li>
                 </ul>
                 }

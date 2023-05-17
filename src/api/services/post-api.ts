@@ -1,7 +1,6 @@
 import { axiosInstance } from "../../contexts/AxiosContext";
 import { EditPostRequest } from "../../hooks/usePosts";
-import { EditPostFormInputs } from "../../pages/MyServices/components/EditPostModal";
-import { CategoryModel, CreatePostRequest, PostModel } from "./models/PostModel";
+import { CategoryModel, CommentRequestModel, CreatePostRequest, PostModel } from "./models/PostModel";
 
 export async function GetPosts(): Promise<PostModel[]>{
     const response = await axiosInstance.get('/post');
@@ -30,5 +29,15 @@ export async function GetPostsFromUser(userId: string) {
 
 export async function DeletePost(postId: string) {
     const response = await axiosInstance.delete(`/post?postId=${postId}`);
+    return response.data;
+}
+
+export async function InsertCommentInPost(request: CommentRequestModel) {
+    const response = await axiosInstance.post(`/comment`, request);
+    return response.data;
+}
+
+export async function GetPostById(postId: string) {
+    const response = await axiosInstance.get(`/post/${postId}`); 
     return response.data;
 }
