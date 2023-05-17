@@ -8,6 +8,7 @@ import { useContext, useState } from "react";
 import { RegisterModal } from "../../pages/RegisterModal";
 import { useUser } from "../../hooks/useUser";
 import { Avatar } from "../Avatar";
+import { Routes } from "../../routes";
 
 interface INavLink {
     title: string;
@@ -55,9 +56,13 @@ export function Header() {
         redirectUserToPage('/meus-servicos');
     }
 
+    function redirectToProfilePage() {
+        if (user) navigate(Routes.Profile);
+    }
+
     function renderSignInButtonOrProfileInfo() {
         return (
-            <SignInSignUpButton userHaveAvatar={!!user?.avatar}>
+            <SignInSignUpButton onClick={redirectToProfilePage} userHaveAvatar={!!user?.avatar}>
                 <Avatar/>
                 <span>{userFirstName}</span>
                 {user && <ul className="userMenu">
@@ -68,7 +73,6 @@ export function Header() {
             </SignInSignUpButton>   
         )
     }
-
 
     return (
         <HeaderContainer>
