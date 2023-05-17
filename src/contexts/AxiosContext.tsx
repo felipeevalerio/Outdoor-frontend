@@ -3,8 +3,7 @@ import { ReactNode, createContext, useEffect, useState } from "react";
 import { CustomToast } from "../components/CustomToast";
 
 export const axiosInstance = axios.create({
-    // baseURL: 'https://outdoorbackend.azurewebsites.net/api'
-    baseURL: 'https://localhost:7221/api'
+    baseURL: 'https://outdoorbackend.azurewebsites.net/api'
 })
 
 interface IAxiosContextTypes {

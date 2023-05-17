@@ -47,6 +47,8 @@ export function EditProfile() {
             id: user!.id,
             avatar: convertedFile
         })
+
+        location.reload();
     }
 
     return (

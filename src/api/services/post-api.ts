@@ -33,6 +33,7 @@ export async function DeletePost(postId: string) {
 }
 
 export async function InsertCommentInPost(request: CommentRequestModel) {
+    await axiosInstance.get('/consumer');
     const response = await axiosInstance.post(`/comment`, request);
     return response.data;
 }

@@ -44,7 +44,7 @@ export function PostDetails() {
                         <RatingInfo rating={currentPost.rating}/>
                     </PostDetailsHeader>
                     <em>
-                        <span>Realizado por  <strong><Avatar/>{currentPost.user.name} </strong></span>
+                        <span>Realizado por  <strong><img src={currentPost.user.avatar} alt=""/>{currentPost.user.name} </strong></span>
                         <span>{currentPost.city} - {currentPost.district}</span>
                     </em>
                     <p>{currentPost.description}</p>

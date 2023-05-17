@@ -52,7 +52,8 @@ export function Header() {
         logoutUser()
     }
 
-    function redirectUserToMyServices() {
+    function redirectUserToMyServices(event: any) {
+        event?.stopPropagation();
         redirectUserToPage('/meus-servicos');
     }
 
@@ -66,7 +67,7 @@ export function Header() {
                 <Avatar/>
                 <span>{userFirstName}</span>
                 {user && <ul className="userMenu">
-                    {user.userType === 'provider' && <li onClick={redirectUserToMyServices}>Meus serviços</li>}
+                    {user.userType === 'provider' && <li onClick={(e) => redirectUserToMyServices(e)}>Meus serviços</li>}
                     <li onClick={handleLogoutUser}>Encerrar sessão</li>
                 </ul>
                 }
