@@ -4,7 +4,7 @@ import { CustomToast } from "../components/CustomToast";
 
 export const axiosInstance = axios.create({
     baseURL: 'https://outdoorbackend.azurewebsites.net/api'
-});
+})
 
 interface IAxiosContextTypes {
     
