@@ -57,10 +57,8 @@ export function usePosts() {
     }
 
     async function createPost(data: CreatePostFormInputs) {
-      handleLoadingVisibility(true)
       const post = await CreatePost(data);
       insertNewPost(post);
-      handleLoadingVisibility(false)
     }
 
     async function getPostsFromUser(userId: string) {
