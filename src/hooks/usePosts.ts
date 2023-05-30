@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { CommentRequestModel, PostDetailsModel, PostModel } from "../api/services/models/PostModel";
 import { PostsContext } from "../contexts/PostsContext";
-import { LoadingContext } from "../contexts/LoadingContext";
 import { GetAllCitiesFromUF } from "../api/geolocation/geolocation-api";
 import { CreatePostFormInputs } from "../pages/Services/components/CreatePostModal";
 import { CreatePost, DeletePost, EditPost, GetPostById, GetPostsFromUser, InsertCommentInPost } from "../api/services/post-api";
