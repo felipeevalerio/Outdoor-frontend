@@ -3,12 +3,13 @@ import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   test: {
+    include: ['src/hooks/**', 'src/utils/**'],
     environment: 'jsdom',
-    exclude:  ['node_modules/**', 'dist/**','src/components/**', 'src/assets/**', 'src/layouts/**', 'src/styles/**', 'src/pages/**', 'src/contexts/**', 'src/api/**'],
     coverage: {
+        include: ['src/hooks/**', 'src/utils/**'],
         reporter: ['lcov', "html"],
+        all: true,
         provider: 'c8',
-        exclude: ['node_modules/**', 'dist/**','src/components/**', 'src/assets/**', 'src/layouts/**', 'src/styles/**', 'src/pages/**', 'src/contexts/**', 'src/api/**']
     }
   },
 })
