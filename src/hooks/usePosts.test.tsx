@@ -3,8 +3,6 @@ import * as postApi from '../api/services/post-api';
 import { renderHook, waitFor } from '@testing-library/react'
 import { usePosts } from './usePosts';
 import { CreatePostFormInputs } from '../pages/Services/components/CreatePostModal';
-import { PostsContext, PostsProvider } from '../contexts/PostsContext';
-import { JSXElementConstructor, ReactElement } from 'react';
 
 describe('usePosts', () => {
     describe('createNewPost', () => {
