@@ -18,8 +18,6 @@ interface MyPostsResponse extends PostModel {
 
 export function usePosts() {
     const { posts, categories, states, insertNewPost} = useContext(PostsContext);
-    const { handleLoadingVisibility } = useContext(LoadingContext);
-
     const [userPosts, setUserPosts] = useState<PostModel[]>([]);
     const [currentPost, setCurrentPost] = useState<PostDetailsModel | null>(null);
 
@@ -50,9 +48,7 @@ export function usePosts() {
             return;
         }
 
-        handleLoadingVisibility(true)
         const cities = await GetAllCitiesFromUF(uf);
-        handleLoadingVisibility(false)
         return cities;
     }
 
@@ -62,41 +58,31 @@ export function usePosts() {
     }
 
     async function getPostsFromUser(userId: string) {
-      handleLoadingVisibility(true)
       const userPostsResponse: MyPostsResponse[] = await GetPostsFromUser(userId) ?? [];
       const formatedResponse = userPostsResponse.map((post) => {
           return {...post, contactNumber: post.mobileNumber}
       })
       
       setUserPosts(formatedResponse);
-      handleLoadingVisibility(false)
     }
 
     async function insertComment(request: CommentRequestModel) {
-      handleLoadingVisibility(true)
       const response = await InsertCommentInPost(request);
       setCurrentPost(response);
-      handleLoadingVisibility(false)
     }
 
     async function getPostById(postId: string) {
-      handleLoadingVisibility(true)
       const response = await GetPostById(postId);
       setCurrentPost(response);
-      handleLoadingVisibility(false)
     }
 
     async function deletePost(postId: string) {
-      handleLoadingVisibility(true)
       await DeletePost(postId);
-      handleLoadingVisibility(false)
     }
 
     
     async function editPost(data: EditPostRequest) {
-      handleLoadingVisibility(true)
       await EditPost(data);
-      handleLoadingVisibility(false)
     }
 
     return {

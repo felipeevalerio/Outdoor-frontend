@@ -1,6 +1,5 @@
-import { ReactNode, createContext, useContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import { CategoryModel, PostModel } from "../api/services/models/PostModel";
-import { LoadingContext } from "./LoadingContext";
 import { GetCategories, GetPosts } from "../api/services/post-api";
 import { GetAllStates } from "../api/geolocation/geolocation-api";
 import { StateModel } from "../api/geolocation/models/CityModel";
@@ -20,8 +19,6 @@ interface IPostsProviderProps {
 }
 
 export function PostsProvider({ children }: IPostsProviderProps) {
-    const { handleLoadingVisibility } = useContext(LoadingContext);
-    
     const [posts, setPosts] = useState<PostModel[]>([]);
     const [categories, setCategories] = useState<CategoryModel[]>([]);
     const [states, setStates] = useState<StateModel[]>([]);
@@ -39,14 +36,10 @@ export function PostsProvider({ children }: IPostsProviderProps) {
     }
 
     async function getAllCategoriesAndPosts() {
-        handleLoadingVisibility(true)
-
         const result = await Promise.all([GetPosts(), GetCategories(), GetAllStates()]);
         setPosts(result[0]);
         setCategories(result[1])
         setStates(result[2])
-
-        handleLoadingVisibility(false)
     }
 
     return (

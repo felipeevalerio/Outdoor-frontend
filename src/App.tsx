@@ -14,15 +14,15 @@ export function App() {
     <ThemeProvider theme={defaultTheme}>
       <BrowserRouter>
       <ToastProvider duration={4000} swipeDirection="right">
+        <LoadingProvider>
         <AxiosProvider>
-          <LoadingProvider>
           <UserProvider>
             <PostsProvider>
               <Router />
             </PostsProvider>
           </UserProvider>
-          </LoadingProvider>
         </AxiosProvider>
+        </LoadingProvider>
       </ToastProvider>
       </BrowserRouter>
       <GlobalStyle />
