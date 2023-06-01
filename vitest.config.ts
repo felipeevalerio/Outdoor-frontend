@@ -10,6 +10,7 @@ export default defineConfig({
         reporter: ['lcov', "html"],
         all: true,
         provider: 'c8',
-    }
+    },
+    clearMocks: true
   },
 })

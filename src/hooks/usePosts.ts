@@ -5,6 +5,7 @@ import { GetAllCitiesFromUF } from "../api/geolocation/geolocation-api";
 import { CreatePostFormInputs } from "../pages/Services/components/CreatePostModal";
 import { CreatePost, DeletePost, EditPost, GetPostById, GetPostsFromUser, InsertCommentInPost } from "../api/services/post-api";
 import { EditPostFormInputs } from "../pages/MyServices/components/EditPostModal";
+import { CityModel } from "../api/geolocation/models/CityModel";
 
 export interface EditPostRequest extends EditPostFormInputs {
   id: string;
@@ -19,6 +20,7 @@ export function usePosts() {
     const { posts, categories, states, insertNewPost} = useContext(PostsContext);
     const [userPosts, setUserPosts] = useState<PostModel[]>([]);
     const [currentPost, setCurrentPost] = useState<PostDetailsModel | null>(null);
+    const [citiesState, setCitiesState] = useState<CityModel[]>([]);
 
     function sendMessageToProvider(post: PostModel) {
       if (post.user) {
@@ -27,8 +29,8 @@ export function usePosts() {
       }
     }
 
-    function filterPosts(categoryId: string | null, city: string | null, state: string | null) {
-        return posts.reduce((filtered: PostModel[], post) => {
+    function filterPosts(categoryId: string | null, city: string | null, state: string | null, initialPosts = posts) {
+        return initialPosts.reduce((filtered: PostModel[], post) => {
             if (categoryId && post.categoryId !== categoryId) {
               return filtered;
             }
@@ -48,6 +50,7 @@ export function usePosts() {
         }
 
         const cities = await GetAllCitiesFromUF(uf);
+        setCitiesState(cities);
         return cities;
     }
 
@@ -99,6 +102,7 @@ export function usePosts() {
         userPosts,
         sendMessageToProvider,
         filterPosts,
-        getCitiesByUF
+        getCitiesByUF,
+        citiesState
     }
 }

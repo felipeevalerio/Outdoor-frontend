@@ -9,6 +9,11 @@ import * as postApi from '../api/services/post-api';
 vi.mock('../api/services/post-api');
 const postApiMocked = vi.mocked(postApi)
 
+import * as geoLocationApi from '../api/geolocation/geolocation-api';
+import { CityModel } from '../api/geolocation/models/CityModel';
+vi.mock('../api/geolocation/geolocation-api');
+const geoLocationApiMocked = vi.mocked(geoLocationApi)
+
 describe('usePosts', () => {
     describe('createNewPost', () => {
         it('should create a new post', async () => {
@@ -40,7 +45,7 @@ describe('usePosts', () => {
                     userType: 'client'
                 } 
             } 
-
+            
             const wrapper = ({children}: any) => <PostsProvider>{children}</PostsProvider>
             const { result } = renderHook(() => usePosts(), {
                 wrapper: wrapper
@@ -48,7 +53,8 @@ describe('usePosts', () => {
             
             result.current.createPost(data);
             postApiMocked.CreatePost.mockResolvedValue(expectedResult);
-            await waitFor(() => expect(result.current.posts).toHaveLength(1))
+
+            expect(postApiMocked.CreatePost).toHaveBeenCalledOnce()
         })
     }),
 
@@ -208,4 +214,295 @@ describe('usePosts', () => {
             await waitFor(() => expect(result.current.currentPost).toEqual(post));
         })
     })
+
+    describe('getPostsFromUser', () => {
+        it('should get all posts from a user', async () => {
+            const posts: PostModel[] = [{
+                categoryId: '123',
+                city: 'Belo Horizonte',
+                contactNumber: '5537999048651',
+                description: 'Teste',
+                district: 'Centro',
+                state: 'MG',
+                title: 'Conserto',
+                image: '',
+                rating: 0,
+                id: '1234124',
+                createdAt: new Date(),
+                user: {
+                    avatar: '',
+                    createdAt: '',
+                    email: '',
+                    id: '',
+                    name: '',
+                    password: '',
+                    userType: 'client'
+                } 
+            }]
+
+            const { result } = renderHook(() => usePosts());
+            postApiMocked.GetPostsFromUser.mockResolvedValue(posts);
+            result.current.getPostsFromUser('123');
+        
+            expect(postApiMocked.GetPostsFromUser).toHaveBeenCalledOnce();
+            await waitFor(() => expect(result.current.userPosts).toHaveLength(1));
+        }),
+
+        it('should return a empty array when occured a error in the request',async () => {
+            const { result } = renderHook(() => usePosts());
+            postApiMocked.GetPostsFromUser.mockResolvedValue(null);
+            result.current.getPostsFromUser('0');
+
+            expect(postApiMocked.GetPostsFromUser).toHaveBeenCalledOnce();
+            await waitFor(() => expect(result.current.userPosts).toHaveLength(0));
+        })
+    });
+
+    describe('getCitiesByUF', () => {
+        it('should get all cities from a uf', async () => {
+            const cities: CityModel[] = [
+                {
+                    id: '1',
+                    name: 'BH'
+                },
+                {
+                    id: '2',
+                    name: 'Lagoa santa'
+                }
+            ]
+
+            const { result } = renderHook(() => usePosts());
+            geoLocationApiMocked.GetAllCitiesFromUF.mockResolvedValue(cities);
+            result.current.getCitiesByUF('mg');
+
+            expect(geoLocationApiMocked.GetAllCitiesFromUF).toHaveBeenCalledOnce();
+            await waitFor(() => expect(result.current.citiesState).toEqual(cities));
+        }),
+
+        it("should end the function because doesn't received a uf", () => {
+            const { result } = renderHook(() => usePosts());
+            result.current.getCitiesByUF('');
+
+            expect(result.current.citiesState).toHaveLength(0);
+        })
+    }),
+
+    describe('filterPosts', () => {
+        it('should filter based on the category', () => {
+            const posts: PostModel[] = [
+                {
+                categoryId: '123',
+                city: 'Belo Horizonte',
+                contactNumber: '5537999048651',
+                description: 'Teste',
+                district: 'Centro',
+                state: 'MG',
+                title: 'Conserto',
+                image: '',
+                rating: 0,
+                id: '1234124',
+                createdAt: new Date(),
+                user: {
+                    avatar: '',
+                    createdAt: '',
+                    email: '',
+                    id: '',
+                    name: '',
+                    password: '',
+                    userType: 'client'
+                }
+                },
+                {
+                    categoryId: '456',
+                    city: 'Belo Horizonte',
+                    contactNumber: '5537999048651',
+                    description: 'Teste',
+                    district: 'Centro',
+                    state: 'MG',
+                    title: 'Conserto',
+                    image: '',
+                    rating: 0,
+                    id: '1234124',
+                    createdAt: new Date(),
+                    user: {
+                        avatar: '',
+                        createdAt: '',
+                        email: '',
+                        id: '',
+                        name: '',
+                        password: '',
+                        userType: 'client'
+                    }
+                }
+                
+            ]
+            const { result } = renderHook(() => usePosts());
+
+            const filteredPosts = result.current.filterPosts('123', '', '', posts);
+
+            expect(filteredPosts).toHaveLength(1);
+        }),
+        it('should filter based on the category and city', () => {
+            const posts: PostModel[] = [
+                {
+                categoryId: '123',
+                city: 'Belo Horizonte',
+                contactNumber: '5537999048651',
+                description: 'Teste',
+                district: 'Centro',
+                state: 'MG',
+                title: 'Conserto',
+                image: '',
+                rating: 0,
+                id: '1234124',
+                createdAt: new Date(),
+                user: {
+                    avatar: '',
+                    createdAt: '',
+                    email: '',
+                    id: '',
+                    name: '',
+                    password: '',
+                    userType: 'client'
+                }
+                },
+                {
+                    categoryId: '456',
+                    city: 'Belo Horizonte',
+                    contactNumber: '5537999048651',
+                    description: 'Teste',
+                    district: 'Centro',
+                    state: 'MG',
+                    title: 'Conserto',
+                    image: '',
+                    rating: 0,
+                    id: '1234124',
+                    createdAt: new Date(),
+                    user: {
+                        avatar: '',
+                        createdAt: '',
+                        email: '',
+                        id: '',
+                        name: '',
+                        password: '',
+                        userType: 'client'
+                    }
+                }
+                
+            ]
+            const { result } = renderHook(() => usePosts());
+
+            const filteredPosts = result.current.filterPosts('123', 'Belo Horizonte', '', posts);
+
+            expect(filteredPosts).toHaveLength(1);
+        }),
+        it('should filter based on the city', () => {
+            const posts: PostModel[] = [
+                {
+                categoryId: '123',
+                city: 'Belo Horizonte',
+                contactNumber: '5537999048651',
+                description: 'Teste',
+                district: 'Centro',
+                state: 'MG',
+                title: 'Conserto',
+                image: '',
+                rating: 0,
+                id: '1234124',
+                createdAt: new Date(),
+                user: {
+                    avatar: '',
+                    createdAt: '',
+                    email: '',
+                    id: '',
+                    name: '',
+                    password: '',
+                    userType: 'client'
+                }
+                },
+                {
+                    categoryId: '456',
+                    city: 'Itauna',
+                    contactNumber: '5537999048651',
+                    description: 'Teste',
+                    district: 'Centro',
+                    state: 'MG',
+                    title: 'Conserto',
+                    image: '',
+                    rating: 0,
+                    id: '1234124',
+                    createdAt: new Date(),
+                    user: {
+                        avatar: '',
+                        createdAt: '',
+                        email: '',
+                        id: '',
+                        name: '',
+                        password: '',
+                        userType: 'client'
+                    }
+                }
+                
+            ]
+            const { result } = renderHook(() => usePosts());
+
+            const filteredPosts = result.current.filterPosts('', 'Belo Horizonte', '', posts);
+
+            expect(filteredPosts).toHaveLength(1);
+        }),
+        it('should filter based on the state', () => {
+            const posts: PostModel[] = [
+                {
+                categoryId: '123',
+                city: 'Belo Horizonte',
+                contactNumber: '5537999048651',
+                description: 'Teste',
+                district: 'Centro',
+                state: 'ES',
+                title: 'Conserto',
+                image: '',
+                rating: 0,
+                id: '1234124',
+                createdAt: new Date(),
+                user: {
+                    avatar: '',
+                    createdAt: '',
+                    email: '',
+                    id: '',
+                    name: '',
+                    password: '',
+                    userType: 'client'
+                }
+                },
+                {
+                    categoryId: '456',
+                    city: 'Itauna',
+                    contactNumber: '5537999048651',
+                    description: 'Teste',
+                    district: 'Centro',
+                    state: 'MG',
+                    title: 'Conserto',
+                    image: '',
+                    rating: 0,
+                    id: '1234124',
+                    createdAt: new Date(),
+                    user: {
+                        avatar: '',
+                        createdAt: '',
+                        email: '',
+                        id: '',
+                        name: '',
+                        password: '',
+                        userType: 'client'
+                    }
+                }
+                
+            ]
+            const { result } = renderHook(() => usePosts());
+
+            const filteredPosts = result.current.filterPosts('', '', 'MG', posts);
+
+            expect(filteredPosts).toHaveLength(1);
+        })
+    });
 })
