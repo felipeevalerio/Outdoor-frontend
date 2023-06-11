@@ -4,17 +4,17 @@ import { LoginRequest, LoginResponse } from "./models/LoginModel";
 import { RegisterRequest } from "./models/RegisterModel";
 import { UserModel } from "./models/UserModel";
 
-export async function Login(request: LoginRequest): Promise<LoginResponse>{
+export async function Login(request: LoginRequest): Promise<LoginResponse | null>{
     const resposta = await axiosBackendInstance.post('/users/login', request);
     return resposta.data; 
 }
 
-export async function Register(request: RegisterRequest): Promise<UserModel>{
+export async function Register(request: RegisterRequest): Promise<UserModel | null>{
     const resposta = await axiosBackendInstance.post('/users', request);
     return resposta.data; 
 }
 
-export async function EditUser(request: UserEditRequest): Promise<UserModel>{
+export async function EditUser(request: UserEditRequest): Promise<UserModel | null>{
     const resposta = await axiosBackendInstance.put(`/users`, request);
     return resposta.data; 
 }

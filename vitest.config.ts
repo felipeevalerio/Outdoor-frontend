@@ -11,6 +11,5 @@ export default defineConfig({
         all: true,
         provider: 'c8',
     },
-    clearMocks: true
   },
 })

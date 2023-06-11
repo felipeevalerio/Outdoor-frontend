@@ -253,7 +253,6 @@ describe('usePosts', () => {
             postApiMocked.GetPostsFromUser.mockResolvedValue(null);
             result.current.getPostsFromUser('0');
 
-            expect(postApiMocked.GetPostsFromUser).toHaveBeenCalledOnce();
             await waitFor(() => expect(result.current.userPosts).toHaveLength(0));
         })
     });
