@@ -34,7 +34,6 @@ export function Post({ post }: IPostProps) {
                 <p className="description">{post.description}</p>
                 <UserInfo>
                     <div className="user-details">
-                        <Avatar/>
                         <p>{post.user?.name}</p>
                     </div>
                     <RatingInfo rating={post.rating}/>
